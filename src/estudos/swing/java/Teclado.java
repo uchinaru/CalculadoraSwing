@@ -1,11 +1,19 @@
 package estudos.swing.java;
 
-import java.awt.*;
+import java.awt.Color;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.util.EventListener;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
+import estudos.swing.java.calc.modelo.Memoria;
+
 @SuppressWarnings("serial")
-public class Teclado extends JPanel {
+public class Teclado extends JPanel implements EventListener, ActionListener {
 
 	private final Color COR_CINZA_ESCURO = new Color(68, 68, 68);
 	private final Color COR_CINZA_CLARO = new Color(99, 99, 99);
@@ -58,7 +66,17 @@ public class Teclado extends JPanel {
 		c.gridy = y;
 
 		Botao botao = new Botao(string, cor);
+		botao.addActionListener(this);
 		add(botao, c);
+	}
+
+	@Override
+	public void actionPerformed(ActionEvent e) {
+		
+		if (e.getSource() instanceof JButton) {
+			JButton botao = (JButton) e.getSource();
+			Memoria.getInstancia().processarComando(botao.getText());
+		}
 	}
 
 }
